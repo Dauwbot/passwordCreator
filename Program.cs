@@ -14,7 +14,7 @@ namespace passwordCreator
         {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < 3; i++ ){
-                var list = ReadAllLinesFromFiles("./sourceFiles/");
+                var list = ReadAllLinesFromRandomFileInDirectory("./sourceFiles/");
                 var random = new Random();
                 int index = random.Next(list.Count);
                 sb.Append(list[index]);
@@ -141,7 +141,7 @@ namespace passwordCreator
             }
         }
 
-        static List<string> ReadAllLinesFromFiles (string directoryPath) {
+        static List<string> ReadAllLinesFromRandomFileInDirectory (string directoryPath) {
             int fCount = Directory.GetFiles(directoryPath, "*.txt", SearchOption.TopDirectoryOnly).Length;
             var random = new Random();
             int fileIndex = random.Next(fCount);
