@@ -2,6 +2,7 @@
 using System.IO;
 using System.Globalization;
 using System.Text;
+using System.Linq;
 
 namespace passwordCreator
 {
@@ -9,7 +10,8 @@ namespace passwordCreator
     {
         static void Main(string[] args)
         {
-            RemoveAccentuationFromFile("./sourceFiles/francais.txt");
+            //RemoveAccentuationFromFile("./sourceFiles/francais.txt");
+            //AddUpperCaseLetter("./sourceFiles/anglais.txt");
         }
     
         static void RemoveAccentuationFromFile (string filePath) {
@@ -71,7 +73,33 @@ namespace passwordCreator
             {
                 Console.WriteLine("Exception: " + e.Message);
             }
-    }
+        }
+
+        static void AddUpperCaseLetter (string filePath) {
+            try
+            {
+                StreamReader sr = new StreamReader(filePath);
+                string tempFile = Path.GetTempFileName();
+
+                using (StreamWriter sw = new StreamWriter(tempFile))
+                {
+                    String line = sr.ReadLine();
+                    while (line != null)
+                    {
+                        sw.WriteLine(line.First().ToString().ToUpper() + line.Substring(1));
+                        line = sr.ReadLine();
+                    }
+                }
+                sr.Close();
+                File.Delete(filePath);
+                File.Move(tempFile, filePath);
+            }
+            catch (System.Exception e)
+            {
+                Console.WriteLine($"Exception: {e.Message}");
+            }
+        }
+
 
     }
 }
