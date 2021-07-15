@@ -12,6 +12,7 @@ namespace passwordCreator
         {
             //RemoveAccentuationFromFile("./sourceFiles/francais.txt");
             //AddUpperCaseLetter("./sourceFiles/anglais.txt");
+            //RemoveShortwords("./sourceFiles/anglais.txt");
         }
     
         static void RemoveAccentuationFromFile (string filePath) {
@@ -100,6 +101,36 @@ namespace passwordCreator
             }
         }
 
+        static void RemoveShortwords (string filePath) {
+             try
+            {
+                StreamReader sr = new StreamReader(filePath);
+                string tempFile = Path.GetTempFileName();
+                String line;
+                using (StreamWriter sw = new StreamWriter(tempFile))
+                {
+                    line = sr.ReadLine();
+                    int lineLength;
+                    while (line != null)
+                    {
+                        lineLength = line.Length;
+                        if (lineLength > 3) {
+                            sw.WriteLine(line);
+                            line = sr.ReadLine();
+                        } else {
+                            line = sr.ReadLine();
+                        }
 
+                    }
+                }
+                sr.Close();
+                File.Delete(filePath);
+                File.Move(tempFile,filePath);
+            }
+            catch (System.Exception e)
+            {
+                Console.WriteLine($"Exception: {e.Message}");
+            }
+        }
     }
 }
