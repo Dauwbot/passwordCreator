@@ -9,6 +9,7 @@ namespace passwordCreator
 {
     class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
             StringBuilder sb = new StringBuilder();
@@ -19,6 +20,7 @@ namespace passwordCreator
                 sb.Append(list[index]);
             }
             Console.WriteLine(sb.ToString());
+            TextCopy.ClipboardService.SetText(sb.ToString());
         }
     
         static void RemoveAccentuationFromFile (string filePath) {
