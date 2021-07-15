@@ -3,6 +3,7 @@ using System.IO;
 using System.Globalization;
 using System.Text;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace passwordCreator
 {
@@ -10,7 +11,14 @@ namespace passwordCreator
     {
         static void Main(string[] args)
         {
-
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < 3; i++ ){
+                var list = ReadAllLinesFromFiles("./sourceFiles/");
+                var random = new Random();
+                int index = random.Next(list.Count);
+                sb.Append(list[index]);
+            }
+            Console.WriteLine(sb.ToString());
         }
     
         static void RemoveAccentuationFromFile (string filePath) {
@@ -99,8 +107,8 @@ namespace passwordCreator
             }
         }
 
-        static void RemoveShortwords (string filePath) {
-             try
+        static void RemoveWords (string filePath, int minLength, int maxLength) {
+            try
             {
                 StreamReader sr = new StreamReader(filePath);
                 string tempFile = Path.GetTempFileName();
@@ -112,7 +120,7 @@ namespace passwordCreator
                     while (line != null)
                     {
                         lineLength = line.Length;
-                        if (lineLength > 3) {
+                        if (lineLength > minLength && lineLength < maxLength) {
                             sw.WriteLine(line);
                             line = sr.ReadLine();
                         } else {
@@ -129,6 +137,15 @@ namespace passwordCreator
             {
                 Console.WriteLine($"Exception: {e.Message}");
             }
+        }
+
+        static List<string> ReadAllLinesFromFiles (string directoryPath) {
+            int fCount = Directory.GetFiles(directoryPath, "*.txt", SearchOption.TopDirectoryOnly).Length;
+            var random = new Random();
+            int fileIndex = random.Next(fCount);
+            string[] files = Directory.GetFiles(directoryPath, "*.txt", SearchOption.TopDirectoryOnly);
+            string filePath = files[fileIndex];
+            return File.ReadAllLines(filePath).ToList();
         }
     }
 }
