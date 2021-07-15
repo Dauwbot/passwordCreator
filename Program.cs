@@ -10,9 +10,7 @@ namespace passwordCreator
     {
         static void Main(string[] args)
         {
-            //RemoveAccentuationFromFile("./sourceFiles/francais.txt");
-            //AddUpperCaseLetter("./sourceFiles/anglais.txt");
-            //RemoveShortwords("./sourceFiles/anglais.txt");
+
         }
     
         static void RemoveAccentuationFromFile (string filePath) {
